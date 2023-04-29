@@ -1,10 +1,10 @@
 <script>
   // import FaRegUser from "svelte-icons/fa/FaRegUser.svelte";
   import DiAndroid from "svelte-icons/di/DiAndroid.svelte";
+  import FaSpinner from "svelte-icons/fa/FaSpinner.svelte";
 
-  import { messages, sendMessage } from "../store";
+  import { messages, sendMessage, isLoading } from "../store";
   let inputMessage = "";
-  let isLoading = false;
 
   function scrollToBottom(node) {
     const config = { childList: true, subtree: true };
@@ -26,11 +26,7 @@
 <div class="flex flex-col h-full">
   <div class="flex-1 overflow-auto" use:scrollToBottom>
     {#each $messages as message}
-      <div
-        class="chat chat-start {message.type == 'user'
-          ? 'chat-start'
-          : 'chat-end'}"
-      >
+      <div class="chat {message.type == 'user' ? 'chat-start' : 'chat-end'}">
         <div class="chat-image avatar">
           <div class="w-10 rounded-full">
             {#if message.type == "user"}
@@ -45,6 +41,18 @@
         </div>
       </div>
     {/each}
+    {#if $isLoading}
+      <div class="chat chat-end">
+        <div class="chat-image avatar">
+          <div class="w-10 rounded-full">
+            <DiAndroid />
+          </div>
+        </div>
+        <div class="chat-bubble">
+          <div class="w-8 rounded-full"><FaSpinner /></div>
+        </div>
+      </div>
+    {/if}
   </div>
   <div class="mt-4">
     <input
