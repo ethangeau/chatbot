@@ -22,7 +22,7 @@
   </div>
   {#if isHistoryVisible}
     <ul class="h-[20vh] overflow-auto">
-      {#each messages as message}
+      {#each $messages.filter((m) => m.type === "user").reverse() as message}
         {#if message.text.toLowerCase().includes(searchQuery.toLowerCase())}
           <li class="text-gray-800">
             User: {message.text}
